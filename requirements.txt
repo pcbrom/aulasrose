@@ -1,0 +1,8 @@
+streamlit
+pandas
+pyyaml
+subprocess32
+openpyxl
+numpy
+plotly
+glob2
