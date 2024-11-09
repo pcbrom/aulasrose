@@ -7,10 +7,7 @@ from openpyxl.styles import Alignment, Font, Border, Side, PatternFill
 import toml
 import os
 
-config_path = os.path.join(os.path.dirname(__file__), "config.toml")
-config = toml.load(config_path)
-
-url = config["google_sheets"]["url"]
+url = st.secrets["google_sheets"]["url"]
 
 def importar_dados(url):
     """
