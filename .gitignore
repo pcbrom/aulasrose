@@ -1,0 +1,11 @@
+# Ignorar arquivos temporários e de configuração
+gitme.sh
+*.xlsx
+
+# Ignorar arquivos Python compilados
+__pycache__/
+*.pyc
+
+# Ignorar arquivos do sistema
+.DS_Store
+Thumbs.db
