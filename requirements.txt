@@ -6,3 +6,4 @@ openpyxl
 numpy
 plotly
 glob2
+toml
