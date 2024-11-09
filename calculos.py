@@ -4,6 +4,7 @@ import numpy as np
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Alignment, Font, Border, Side, PatternFill
+import toml
 
 # Carregar a URL do arquivo TOML
 config = toml.load("config.toml")
