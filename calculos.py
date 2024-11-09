@@ -5,9 +5,11 @@ from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Alignment, Font, Border, Side, PatternFill
 import toml
+import os
 
-# Carregar a URL do arquivo TOML
-config = toml.load("config.toml")
+config_path = os.path.join(os.path.dirname(__file__), "config.toml")
+config = toml.load(config_path)
+
 url = config["google_sheets"]["url"]
 
 def importar_dados(url):
