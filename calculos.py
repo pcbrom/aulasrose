@@ -4,8 +4,7 @@ import numpy as np
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Alignment, Font, Border, Side, PatternFill
-import toml
-import os
+import streamlit as st
 
 url = st.secrets["google_sheets"]["url"]
 
