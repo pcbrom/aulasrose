@@ -5,7 +5,14 @@ from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Alignment, Font, Border, Side, PatternFill
 
+# Carregar a URL do arquivo TOML
+config = toml.load("config.toml")
+url = config["google_sheets"]["url"]
+
 def importar_dados(url):
+    """
+    Importa dados do Google Sheets a partir de uma URL fornecida.
+    """
     try:
         df = pd.read_csv(url, sep='\t', dtype=str)
         print("Dados importados com sucesso.")
@@ -13,6 +20,16 @@ def importar_dados(url):
     except Exception as e:
         print(f"Erro ao importar dados: {e}")
         return None
+
+def limpar_dados(df):
+    df['Data'] = pd.to_datetime(df['Data'].str.strip(), format='%d/%m/%Y', errors='coerce')
+    df['Nome do aluno'] = df['Nome do aluno'].str.strip()
+    df['Valor da aula'] = df['Valor da aula'].str.replace(r'R\$', '', regex=True)\
+                                             .str.replace(',', '.', regex=True)\
+                                             .str.strip()
+    df['Valor da aula'] = pd.to_numeric(df['Valor da aula'], errors='coerce')
+    df = df.dropna(subset=['Data', 'Nome do aluno', 'Valor da aula'])
+    return df
 
 def limpar_dados(df):
     df['Data'] = pd.to_datetime(df['Data'].str.strip(), format='%d/%m/%Y', errors='coerce')
@@ -90,7 +107,6 @@ def processar_dados(data_inicio, data_fim):
     """
     Função principal para processar os dados.
     """
-    url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR6L5H6wMo_ewG0_Q4kQG3pGk-tjxMg-A6S2l1WsP4ugFMYjYAbUSF2Uvq42A5GMfoV7RO0TZ0_632g/pub?gid=0&single=true&output=tsv'
     df = importar_dados(url)
     if df is None:
         return None, None, None
