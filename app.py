@@ -62,7 +62,7 @@ if data_inicio > data_fim:
 if st.sidebar.button("📊 Gerar Relatório"):
     with st.spinner("Processando dados..."):
         try:
-            saida, resumo_ano, resumo_aluno = processar_dados(data_inicio, data_fim)
+            saida, resumo_ano, resumo_aluno, total_previsto_mes = processar_dados(data_inicio, data_fim)
         except Exception as e:
             st.error(f"Ocorreu um erro: {e}")
             st.stop()
@@ -73,6 +73,7 @@ if st.sidebar.button("📊 Gerar Relatório"):
 
         st.session_state["saida"] = saida.reset_index(drop=True)
         st.session_state["resumo_aluno"] = resumo_aluno
+        st.session_state["total_previsto_mes"] = total_previsto_mes
 
 if "saida" in st.session_state and "resumo_aluno" in st.session_state:
     st.dataframe(st.session_state["saida"], use_container_width=True)
@@ -80,6 +81,10 @@ if "saida" in st.session_state and "resumo_aluno" in st.session_state:
     st.subheader("Gráficos de Análise")
     grafico_ganhos_por_aluno(st.session_state["resumo_aluno"])
     grafico_distribuicao_ganhos(st.session_state["resumo_aluno"])
+
+    # Exibir o total previsto no mês
+    st.sidebar.subheader("Total Previsto no Mês")
+    st.sidebar.info(f"R$ {st.session_state['total_previsto_mes']:.2f}")
 
     filename = f'relatorio_{pd.Timestamp.now().date()}.xlsx'
     salvar_em_excel(st.session_state["saida"], filename=filename)

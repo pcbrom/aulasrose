@@ -108,7 +108,7 @@ def processar_dados(data_inicio, data_fim):
     """
     df = importar_dados(url)
     if df is None:
-        return None, None, None
+        return None, None, None, None
 
     df = limpar_dados(df)
 
@@ -123,4 +123,7 @@ def processar_dados(data_inicio, data_fim):
     resumo_aluno = gerar_resumo_aluno(df)
     saida = gerar_saida_detalhada(df)
 
-    return saida, resumo_ano, resumo_aluno
+    # Calcular o total previsto no mês
+    total_previsto_mes = df['Valor da aula'].sum()
+
+    return saida, resumo_ano, resumo_aluno, total_previsto_mes
